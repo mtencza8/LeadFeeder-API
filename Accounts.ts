@@ -31,7 +31,7 @@ export class Account {
 
     public constructor(account: any){
 
-        this._attributes = account.data['attributes'];
+        this._attributes = new AccountAttributes(account.data['attributes']);
         this._id = account.data["id"];
         this._type = account.date['type'];
 

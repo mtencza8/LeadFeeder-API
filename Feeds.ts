@@ -37,7 +37,9 @@ class FeedAttributes{
 
     constructor(attributes: any) {
         this._name = attributes.name;
-        this._criteria = attributes.criteria
+        this._criteria.forEach((criteria: any) => {
+            this._criteria.push(new FeedCriteria(criteria))
+        })
     };
 
     public get name(): string {
@@ -50,7 +52,7 @@ class FeedAttributes{
 
 }
 
-class Feed{
+export class Feed{
 
     private readonly _id: string;
     private readonly _type: string;

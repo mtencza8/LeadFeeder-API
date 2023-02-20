@@ -63,137 +63,203 @@ class LeadAttributes {
         return this._industry;
     }
 
-    public get firstVisitDate(): Date{      
+    public get firstVisitDate(): Date | null{      
         return this._firstVisitDate;
     }
 
-    public get status(): string{
+    public get status(): string | null{
         return this._status;
     }
 
-    public get lastVisitDate(): Date{
+    public get lastVisitDate(): Date  | null{
         return this._lastVisitDate;
     }
 
-    public get websiteUrl(): string{
+    public get websiteUrl(): string | null{
         return this._websiteUrl;
     }
 
-    public get phone(): string{
+    public get phone(): string | null{
         return this._phone;
     }
 
-    public get facebookUrl(): string{
+    public get facebookUrl(): string | null{
         return this._facebookUrl;
     }
 
-    public get employeeCount(): number{
+    public get employeeCount(): number | null{
         return this._employeeCount;
     }
 
-    public get employeeRange(): EmployeeRange{
+    public get employeeRange(): EmployeeRange | null{
         return this._employeeRange;
     }
 
-    public get crmLeadId(): number{
+    public get crmLeadId(): number | null{
         return this._crmLeadId;
     }
 
-    public get crmOrganizationId(): number{
+    public get crmOrganizationId(): number | null{
         return this._crmOrganizationId;
     }
 
-    public get tags(): string[]{
+    public get tags(): string[] | null{
         return this._tags;
     }
 
-    public get logoUrl(): string{
+    public get logoUrl(): string | null{
         return this._logoUrl;
     }
 
-    public get assignee(): string{
+    public get assignee(): string | null{
         return this._assignee;
     }
 
-    public get businessId(): string{
+    public get businessId(): string | null{
         return this._businessId;
     }
 
-    public get revenue(): string{
+    public get revenue(): string | null{
         return this._revenue;
     }
 
-    public get emailedTo(): string{
+    public get emailedTo(): string | null{
         return this._emailedTo;
     }
 
-    public get leadfeederUrl(): string{
+    public get leadfeederUrl(): string | null{
         return this._leadfeederUrl;
     }
 
-    public get visits(): number{
+    public get visits(): number | null{
         return this._visits;
     }
 
-    public get quality(): number{
+    public get quality(): number | null{
         return this._quality;
     }
 
 }
 
-class LeadRelationship{ | null
 
-}
 
 class LeadLocation{
 
-}
+    private readonly _id: string | null;
+    private readonly _type: string | null;
+    private readonly _attributes: LeadLocationAttributes;
 
-class EmployeeRange{
-    private _min: number;
-    private _max: number;
-
-    public constructor(min: number, max: number){
-        this._min = min;
-        this._max = max;
-    }
-}
-
-class Lead{
-    private _attributes: LeadAttributes | null;
-    private _id: string | null;
-    private _type: string | null;
-    private _relationships: LeadRelationship | null;
-    private _location: LeadLocation | null;
-
-    public constructor(lead: any){
-        this._attributes = lead.data['attributes'];
-        this._id = lead.data['id'];
-        this._type = lead.data['type'];
-        this._relationships = lead.data['relationships'];
-        this._location = lead.data['location'];
+    public constructor(location: any){
+        this._id = location.id;
+        this._type = location.type;
+        this._attributes = new LeadLocationAttributes(location.attributes);
     }
 
-    public get attributes(): LeadAttributes{
-        if(this._attributes == null){
-            return null;
-        }
-        return this._attributes;
-    }
-
-    public get id(): string{
+    public get id(): string | null{
         return this._id;
     }
 
-    public get type(): string{
+    public get type(): string | null{
         return this._type;
     }
 
-    public get relationships(): LeadRelationship{
-        return this._relationships;
+    public get attributes(): LeadLocationAttributes{
+        return this._attributes;
     }
 
-    public get location(): LeadLocation{
+
+
+    
+
+}
+
+class LeadLocationAttributes{
+    private readonly _country: string | null;
+    private readonly _countryCode: string | null;
+    private readonly _region: string | null;
+    private readonly _city: string | null;
+    private readonly _stateCode: string | null;
+
+    public constructor(attributes: any){
+        this._country = attributes.country;
+        this._countryCode = attributes.countryCode;
+        this._region = attributes.region;
+        this._city = attributes.city;
+        this._stateCode = attributes.stateCode;
+    }
+
+    public get country(): string | null{
+        return this._country;
+    }
+
+    public get countryCode(): string | null{
+        return this._countryCode;
+    }
+
+    public get region(): string | null{
+        return this._region;
+    }
+
+    public get city(): string | null{
+        return this._city;
+    }
+
+    public get stateCode(): string | null{
+        return this._stateCode;
+    }
+}
+
+
+
+
+class EmployeeRange{
+    private _min: number | null;
+    private _max: number | null;
+
+    public constructor(min: number | null, max: number | null){
+        this._min = min;
+        this._max = max;
+    }
+
+    public get min(): number | null{
+        return this._min;
+    }
+
+    public get max(): number | null{
+        return this._max;
+    }
+}
+
+export class Lead{
+    private _attributes: LeadAttributes | null;
+    private _id: string | null;
+    private _type: string | null;
+    private _location: LeadLocation[] | null;
+
+    public constructor(lead: any){
+        this._attributes = new LeadAttributes(lead.data['attributes']);
+        this._id = lead.data['id'];
+        this._type = lead.data['type'];
+ 
+        this._location?.forEach(item => {
+            new LeadLocation(item);
+        });
+    }
+
+    public get attributes(): LeadAttributes | null{
+        return this._attributes;
+    }
+
+    public get id(): string | null{
+        return this._id;
+    }
+
+    public get type(): string | null{
+        return this._type;
+    }
+
+
+    public get location(): LeadLocation[]  | null{
         return this._location;
     }
 
