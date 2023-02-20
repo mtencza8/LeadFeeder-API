@@ -12,7 +12,7 @@ class FeedCriteria{
         this._displayValue = criteria.displayValue;
     };
 
-    public get setValue(): string{
+    public get searchValue(): string{
         return this._searchValue;
     }
 

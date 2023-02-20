@@ -18,7 +18,7 @@ class AccountAttributes{
     }
 
     public get timezone(): string{
-        return this._subscription;
+        return this._timezone;
     }
 
 }
@@ -43,7 +43,11 @@ export class Account {
     }
 
     public get type(): string {
-        return this._type
+        return this._type;
+    }
+
+    public get attributes(): AccountAttributes {
+        return this._attributes;
     }
 
 
